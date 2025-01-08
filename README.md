@@ -15,6 +15,19 @@ pip install openpyxl pandas datetime pathlib ezsheets
 ```
 Before starting, make sure to delete all .pickle files from your home directory, as these may be authorizations from a different account. 
 
-Following the instructions linked, set up the [Google Drive](https://developers.google.com/drive/api/quickstart/python and [Google Sheets API](https://developers.google.com/sheets/api/quickstart/python). Because we are using ezsheets, we will need to save the credentials file as both credentials.json and credentials-sheets.json in the home folder.
+Following the instructions linked, set up the [Google Drive](https://developers.google.com/drive/api/quickstart/python) and [Google Sheets API](https://developers.google.com/sheets/api/quickstart/python). Because we are using ezsheets, we will need to save the credentials file as both credentials.json and credentials-sheets.json in the home folder.
 
+# Running the program
+
+To run the program, simply open the terminal and type
+
+```bash
+python LCImporter.py
+```
+
+or
+
+```bash
+py LCImporter.py
+```
 
