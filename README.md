@@ -29,7 +29,7 @@ Now you should be ready to automatically update Google Sheets with Python.
 
 ## Token expired or revoked error
 
-If you see this error, you will need to create a new credentials token, and delete the previous credentials.
+If you see this error, you will need to create a new credentials token, and delete the previous credentials. This will be relatively common, as tokens expire after a few weeks for security reasons.
 
 In your home folder, delete your credentials.json, credentials-sheets.json, token.json and your .pickle files.
 <img width="158" alt="Screenshot 2025-01-13 at 3 10 44 PM" src="https://github.com/user-attachments/assets/d891b39d-da4a-4a59-9f42-20b549949001" />
