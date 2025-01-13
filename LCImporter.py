@@ -9,19 +9,37 @@ Created on Wed Dec  4 20:29:07 2024
 
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
-import openpyxl, pprint, os
-from openpyxl.utils import get_column_letter, column_index_from_string
+import pprint, os, openpyxl
 from pathlib import Path
-from datetime import datetime
-from openpyxl.styles import Font
+from datetime import datetime, timezone
 import pandas as pd
-import ezsheets
-import LCData
+import ezsheets, json
 
 #%% Ask for LC File and Verify that it is an excel file
 
+
+govTypeKey = input("Are you updating Congressional or Executive branch data? For Congressional type '1'. For Executive, type '2': ")
+
+if govTypeKey == '1':
+    govType = 'Congressional'
+    print(govType)
+elif govTypeKey == '2':
+    govType = 'Executive'
+    print(govType)
+else:
+    print("Please input a valid number")
+    
+
 Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
-filename = askopenfilename() # show an "Open" dialog box and return the path to the selected file
+# filename = askopenfilename() # show an "Open" dialog box and return the path to the selected file
+
+# Open file dialog
+filename = askopenfilename(title="Select a file", filetypes=[("Excel files", "*.xlsm"), ("CSV files", "*.csv")])
+
+if filename:
+    print(f"File selected: {filename}")
+else:
+    print("No file selected. Exiting.")
 
 try:
     if filename.endswith('.csv'):
@@ -34,24 +52,14 @@ try:
     wb = openpyxl.load_workbook(filename)
     print(f'Success! The file "{filename}" was created and opened.')
 except:
-    print("Invalid File Type. Please ensure that the file selected is an XLSM file")
+    print("Invalid File Type. Please ensure that the file selected is an XLSM or CSV file")
 
 
-#%%
-
-govTypeKey = input("Are you updating Congressional or Executive branch data? For Congressional type '1'. For Executive, type '2': ")
-
-if govTypeKey == '1':
-    govType = 'Congressional'
-    print(govType)
-elif govTypeKey == '2':
-    govType = 'Executive'
-    print(govType)
-else:
-    print("Please input a valid number")
 
 #%% Read and save person data as a dictionary
-dateString = str(datetime.utcnow())
+
+#Get current date and time
+dateString = str(datetime.now(timezone.utc))
 
 print("Opening workbook...")
 # Create list of data categories
@@ -102,9 +110,25 @@ print("Added %s people" %(peopleCount))
 
 continueKey = input("Would you like to add another spreadsheet? Type '1' for yes, '2' for no： ")
 if continueKey == '1':
+    
+    govTypeKey = input("Are you updating Congressional or Executive branch data? For Congressional type '1'. For Executive, type '2': ")
+    if govTypeKey == '1':
+        govType = 'Congressional'
+        print(govType)
+    elif govTypeKey == '2':
+        govType = 'Executive'
+        print(govType)
+    else:
+        print("Please input a valid number")
+        
     Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
-    filename = askopenfilename() # show an "Open" dialog box and return the path to the selected file
+    # Open file dialog
+    filename = askopenfilename(title="Select a file", filetypes=[("Excel files", "*.xlsm"), ("CSV files", "*.csv")])
 
+    if filename:
+        print(f"File selected: {filename}")
+    else:
+        print("No file selected. Exiting.")
     try:
         if filename.endswith('.csv'):
             # Reading the csv file
@@ -118,19 +142,9 @@ if continueKey == '1':
     except:
         print("Invalid File Type. Please ensure that the file selected is an XLSM file")
         
-    govTypeKey = input("Are you updating Congressional or Executive branch data? For Congressional type '1'. For Executive, type '2': ")
-    if govTypeKey == '1':
-        govType = 'Congressional'
-        print(govType)
-    elif govTypeKey == '2':
-        govType = 'Executive'
-        print(govType)
-    else:
-        print("Please input a valid number")
-        
-        
-    dateString = str(datetime.utcnow())
 
+        
+        
     print("Opening workbook...")
     peopleCount = 0
     sheet = wb[str(wb.sheetnames[0])]
@@ -173,22 +187,34 @@ print("Number of people: " + str(len(keys)))
 keyList = []
 for key in keys:
     keyList.append(key)
+    
+#%% Write results as a JSON file
+
+print('Writing results......')
+with open("LCData.json", "w") as outfile: 
+    json.dump(people, outfile)
+outfile.close()
+print('Done.')
+
 
 #%% Writing results as a .py file
-print('Writing results......')
-resultFile = open('LCData.py', 'w')
-resultFile.write('allData = ' + pprint.pformat(people))
-resultFile.close()
-print('Done.')
+
+# =============================================================================
+# print('Writing results......')
+# resultFile = open('LCData.py', 'w')
+# resultFile.write('allData = ' + pprint.pformat(people))
+# resultFile.close()
+# print('Done.')
+# 
+# =============================================================================
+
 
 #%% Update Google Sheets with LCData
 
 # Initialize sheet + variables
-
-people = LCData.allData
 spreadsheetID = '1qB0typdQr1e3KK38lp9e8zQi1kMf2Zn2Ud30Gakya58'
 ss = ezsheets.Spreadsheet(spreadsheetID)
-ss.title
+
 sheet = ss[0]
 headings = sheet.getRow(1)
 LeadershipConnectIDCol = headings.index('LeadershipConnectID')+1
@@ -196,30 +222,33 @@ maxCol = len(headings)
 maxRow = len(sheet.getColumn(1))
 print("ID is in column %s, titled %s" %(LeadershipConnectIDCol,sheet[LeadershipConnectIDCol,1]))
 print("Updating %s" %(ss.title))
-# Start of LeadershipConnect Fields
-lastUpdatedCol = headings.index('Last Updated (LC)')+1
+
+# Find the first instance of (LC) field
+index = 0
+for cat in headings:
+    if cat.endswith("(LC)"):
+        print ("LC Column Start: %s" %(index+1))
+        startIndex = index + 1
+        break
+    index += 1
+
 
 
 #%%
 
 ss.refresh()
 updateCount = 0
-for row in range(1000,maxRow):
+for row in range(2,maxRow):
     ID = sheet[LeadershipConnectIDCol,row]
     print("ID: %s" %(ID))
     if ID in people.keys():
         print("Updating ID: %s" %(ID))
         updateCount += 1
-        for col in range(lastUpdatedCol,maxCol+1):
+        for col in range(startIndex,maxCol+1):
             key = sheet[col,1][:-5]
-            if key in people[ID].keys():
+            if key in people[ID].keys() and sheet[col, 1].endswith("(LC)"):
                 print("Updating %s" %(key))
                 print("New Value: %s" %(people[ID][key]))
-# =============================================================================
-#                 if people[ID][key] == 'None':
-#                     sheet[col,row] = ""
-#                 else:
-# =============================================================================
                 sheet[col,row] = people[ID][key]
 print("Finished updating %s entries" %(updateCount))     
 
