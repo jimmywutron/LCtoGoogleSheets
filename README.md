@@ -19,7 +19,7 @@ Following the instructions linked, set up the [Google Drive](https://developers.
 
 # Running the program
 
-To run the program, simply open the terminal and type
+To run the program, open the terminal and type
 
 ```bash
 python LCImporter.py
