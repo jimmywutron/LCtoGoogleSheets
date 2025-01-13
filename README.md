@@ -21,7 +21,7 @@ During setup, list yourself as a test user.
 
 <img width="526" alt="Screenshot 2025-01-13 at 1 22 22 PM" src="https://github.com/user-attachments/assets/e67a6f4e-22c3-45a1-bfc6-2b7ef5d21852" />
 
-Because we are using ezsheets, we will need to save the credentials file as both credentials.json and credentials-sheets.json in the home folder.
+Because we are using ezsheets, we will need to save the credentials file that you downloaded from Google as both credentials.json and credentials-sheets.json in the home folder.
 
 <img width="252" alt="Screenshot 2025-01-13 at 12 42 57 PM" src="https://github.com/user-attachments/assets/151cdc18-8302-4873-94a9-bed2f50a5cab" />
 
