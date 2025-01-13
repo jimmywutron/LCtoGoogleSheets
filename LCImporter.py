@@ -34,7 +34,7 @@ Tk().withdraw() # we don't want a full GUI, so keep the root window from appeari
 # filename = askopenfilename() # show an "Open" dialog box and return the path to the selected file
 
 # Open file dialog
-filename = askopenfilename(title="Select a file", filetypes=[("Excel files", "*.xlsm"), ("CSV files", "*.csv")])
+filename = askopenfilename(title="Select a file", filetypes=[ ("CSV files", "*.csv"), ("Excel files", "*.xlsm")])
 
 if filename:
     print(f"File selected: {filename}")
@@ -123,7 +123,7 @@ if continueKey == '1':
         
     Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
     # Open file dialog
-    filename = askopenfilename(title="Select a file", filetypes=[("Excel files", "*.xlsm"), ("CSV files", "*.csv")])
+    filename = askopenfilename(title="Select a file", filetypes=[ ("CSV files", "*.csv"), ("Excel files", "*.xlsm")])
 
     if filename:
         print(f"File selected: {filename}")
