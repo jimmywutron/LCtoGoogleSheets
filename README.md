@@ -84,27 +84,6 @@ The LinkedIn scraper uses ProxyCurl to get data from Linkedin profiles. ProxyCur
 If you have a list of profiles that you don't want ProxyCurl to re-scrape and update, there is an option to import an existing .json list before scraping. Otherwise, to run the program open the terminal and type
 
 ```bash
-python ProxyCurlScraper.py
-```
-
-or if you're in Windows
-
-```bash
-py ProxyCurlScraper.py
-```
-
-This program will save the scraped Linkedin data as a JSON file to your root folder. It will also save a list of invalid URLs.
-
-<img width="237" alt="Screenshot 2025-01-13 at 2 04 35 PM" src="https://github.com/user-attachments/assets/a3cd935f-a15e-4bea-b1a5-0c1b5949f0d6" />
-<img width="218" alt="Screenshot 2025-01-13 at 2 05 10 PM" src="https://github.com/user-attachments/assets/05be29ec-7961-44f0-966c-ab6fbb2520a8" />
-
-You will use these JSON files to update the master spreadsheet.
-
-### Importing the data
-
-Now you are ready to import. Open the terminal and type
-
-```bash
 python LinkedinImporter.py
 ```
 
@@ -114,4 +93,9 @@ or if you're in Windows
 py LinkedinImporter.py
 ```
 
-Follow the directions to import the JSON data from the scraper and let the program run in the background to update the [Tech Labs Master Alumni List](https://docs.google.com/spreadsheets/d/1qB0typdQr1e3KK38lp9e8zQi1kMf2Zn2Ud30Gakya58/edit?gid=1154729072#gid=1154729072).
+This program will save the scraped Linkedin data as a JSON file to your root folder. It will also save a list of invalid URLs.
+
+<img width="237" alt="Screenshot 2025-01-13 at 2 04 35 PM" src="https://github.com/user-attachments/assets/a3cd935f-a15e-4bea-b1a5-0c1b5949f0d6" />
+<img width="218" alt="Screenshot 2025-01-13 at 2 05 10 PM" src="https://github.com/user-attachments/assets/05be29ec-7961-44f0-966c-ab6fbb2520a8" />
+
+Let the program run in the background to update the [Tech Labs Master Alumni List](https://docs.google.com/spreadsheets/d/1qB0typdQr1e3KK38lp9e8zQi1kMf2Zn2Ud30Gakya58/edit?gid=1154729072#gid=1154729072).
