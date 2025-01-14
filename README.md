@@ -34,7 +34,8 @@ If you see this error, you will need to create a new credentials token, and dele
 In your home folder, delete your credentials.json, credentials-sheets.json, token.json and your .pickle files.
 <img width="158" alt="Screenshot 2025-01-13 at 3 10 44 PM" src="https://github.com/user-attachments/assets/d891b39d-da4a-4a59-9f42-20b549949001" />
 
-Then follow the instructions above to create a new authorization. 
+
+Then follow the instructions above to create a new authorization. New credentials can be created from the [Google credentials]([url](https://console.cloud.google.com/apis/credentials)) page.
 
 <img width="727" alt="Screenshot 2025-01-13 at 3 12 47 PM" src="https://github.com/user-attachments/assets/f3a57ca9-365a-4ed2-b740-0316e7946392" />
 
